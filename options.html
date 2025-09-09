@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escáner y Convertidor a PDF</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-image: url("IMAGENES/CONADI.png");
+        background-repeat: no-repeat;
+        background-size: 900px;
+        background-position: center;
+        background-color: rgb(129, 180, 182);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        text-align: center;
+        padding: 40px;
+         background-color: rgba(60, 56, 56, 0.2); 
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        width: 85%;
+        max-width: 650px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .container:hover {
+        transform: translateY(-5px);
+    }
+
+    h1 {
+        color: #ffffff;
+        margin-bottom: 25px;
+        font-size: 2.2em;
+        font-weight: 600;
+    }
+
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .custom-file-input, .pdf-button, .next-button {
+        padding: 18px 40px;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        color: white;
+        border: none;
+    }
+
+    .custom-file-input {
+        background-color: #00796b;
+    }
+    .custom-file-input:hover {
+        background-color: #004d40;
+        transform: scale(1.03);
+    }
+
+    .pdf-button {
+        background-color: #4CAF50;
+    }
+    .pdf-button:hover {
+        background-color: #43a047;
+        transform: scale(1.03);
+    }
+
+    .next-button {
+        background-color: #007bff;
+    }
+    .next-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.03);
+    }
+
+    #image-preview {
+        max-width: 100%;
+        height: auto;
+        margin-top: 25px;
+        border: 2px solid #a8dadc;
+        border-radius: 12px;
+        display: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Escáner y Convertidor a PDF</h1>
+        <div class="button-group">
+            
+            <label for="fileInput" class="custom-file-input">Escanear imagen 📸</label>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            
+            
+            <button class="pdf-button" onclick="convertirYEnviar()">Convertir a PDF y Enviar 📁✉️</button>
+
+            
+            <button class="next-button" onclick="window.location.href='Direccion o Departamento o unidad solicitante.html'">
+                Ir a Dirección / Departamento / Unidad ➡️
+            </button>
+        </div>
+        
+        <img id="image-preview" alt="Vista previa de la imagen">
+    </div>
+
+<script>
+const fileInput = document.getElementById('fileInput');
+const imagePreview = document.getElementById('image-preview');
+const pdfFileName = "documento_escaneado.pdf"; 
+
+fileInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+function convertirYEnviar() {
+    if (imagePreview.style.display === 'none') {
+        alert("Por favor, selecciona una imagen primero.");
+        return;
+    }
+
+    html2canvas(imagePreview).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+
+        const imgWidth = 210;
+        const pageHeight = 297;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+        
+        
+        const pdfData = doc.output("datauristring");
+        localStorage.setItem("pdfGenerado", pdfData);
+
+        
+        doc.save(pdfFileName);
+
+        
+        const subject = encodeURIComponent("Documento Escaneado");
+        const body = encodeURIComponent("Adjunto encontrará el documento escaneado en formato PDF. Saludos.");
+        const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
+        window.open(mailtoLink, '_self');
+
+        alert("El PDF se ha descargado. Por favor, adjúntalo en tu correo.");
+    });
+}
+</script>
+</body>
+</html>

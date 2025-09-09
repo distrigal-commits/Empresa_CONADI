@@ -1,0 +1,156 @@
+/* ==============================
+   ESTILOS GENERALES
+   ============================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f7;
+
+    /* Fondo con logo de CONADI */
+    background-image: url("img/conadi.png"); /* Asegúrate de guardar el logo en /img/conadi.png */
+    background-repeat: no-repeat;
+    background-size: 1000px;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* ==============================
+   CONTENEDORES PRINCIPALES
+   ============================== */
+.container, 
+.login-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 50px;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 420px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover,
+.login-container:hover {
+    transform: translateY(-8px);
+}
+
+/* ==============================
+   TITULOS
+   ============================== */
+h1, h2 {
+    margin-bottom: 25px;
+    color: #004080; /* Azul formal */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h1 {
+    font-size: 2.2em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+/* ==============================
+   INPUTS
+   ============================== */
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 20px;
+    border: 2px solid #e1e8ed;
+    border-radius: 10px;
+    font-size: 1.1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #004080;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 64, 128, 0.3);
+}
+
+/* ==============================
+   BOTONES
+   ============================== */
+button, 
+.custom-file-input, 
+.pdf-button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: #0066cc;
+    color: #fff;
+}
+
+button:hover {
+    background-color: #004080;
+    transform: scale(1.03);
+}
+
+.custom-file-input {
+    background-color: #ff9800;
+    color: white;
+}
+
+.custom-file-input:hover {
+    background-color: #e68900;
+    transform: scale(1.03);
+}
+
+.pdf-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pdf-button:hover {
+    background-color: #2e7d32;
+    transform: scale(1.03);
+}
+
+/* ==============================
+   VISTA PREVIA DE IMAGEN
+   ============================== */
+#image-preview {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    display: none;
+}
+
+/* ==============================
+   MENSAJES DE ERROR
+   ============================== */
+.error-message {
+    color: #e74c3c;
+    margin-top: 15px;
+    visibility: hidden;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* ==============================
+   LOGO SUPERIOR
+   ============================== */
+.logo-conadi {
+    width: 120px;
+    margin-bottom: 20px;
+}

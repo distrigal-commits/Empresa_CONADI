@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Técnico de centro de costos</title>
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: rgb(129, 180, 182);
+        background-image: url("Imagenes/CONADI.png"); 
+        background-repeat: no-repeat; 
+        background-size: 1000px; 
+        background-position: center; 
+        display: flex; justify-content: center; align-items: center;
+        min-height: 100vh; margin: 0;
+    }
+    .container {
+        background-color: rgba(60, 56, 56, 0.2); 
+        padding: 40px; border-radius: 18px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+        text-align: center; width: 500px; transition: transform 0.3s ease-in-out;
+    }
+    .container:hover { transform: translateY(-8px); }
+    .container h2 { margin-bottom: 20px; color: #ffffff; font-size: 1.6em; font-weight: 600; }
+    .container h3 { margin-bottom: 15px; color: #ffffff; font-size: 1.3em; }
+    textarea {
+        width: 100%; height: 100px; margin-bottom: 15px; padding: 12px; 
+        border-radius: 10px; border: 1px solid #ccc; resize: none; font-size: 1em;
+    }
+    label { display: block; margin-bottom: 15px; font-size: 1em; }
+    a {
+        display: block; margin-top: 10px; text-decoration: none; color: white; 
+        background: #4CAF50; padding: 12px; border-radius: 10px; font-weight: bold;
+        pointer-events: none; opacity: 0.6;
+    }
+    a:hover { background: #43a047; }
+    iframe {
+        width: 100%; height: 300px; border: 2px solid #a8dadc; margin-bottom: 20px; 
+        border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Técnico de centro de costos</h2>
+
+    <h3>Documento recibido</h3>
+    <iframe id="visorPDF"></iframe>
+
+    <textarea id="comentario" placeholder="Escribe tu comentario..."></textarea>
+    <label>
+      <input type="checkbox" id="revisado"> He revisado la información
+    </label>
+
+    
+    <a id="enviar" href="Jefe de Departamentos de Compras.html"return validarCheckbox();">Enviar a Jefe del Departamentos de Compras</a>
+  </div>
+
+  <script>
+    
+    const pdfData = localStorage.getItem("pdfGenerado");
+    if (pdfData) {
+      document.getElementById("visorPDF").src = pdfData;
+    } else {
+      document.getElementById("visorPDF").outerHTML = "<p style='color:red;'>No se recibió ningún documento.</p>";
+    }
+
+    const checkbox = document.getElementById('revisado');
+    const enviarLink = document.getElementById('enviar');
+
+    checkbox.addEventListener('change', () => {
+        if(checkbox.checked){
+            enviarLink.style.pointerEvents = 'auto';
+            enviarLink.style.opacity = '1';
+        } else {
+            enviarLink.style.pointerEvents = 'none';
+            enviarLink.style.opacity = '0.6';
+        }
+    });
+
+    function validarCheckbox(){
+        if(!checkbox.checked){
+            alert("Debes marcar la casilla de revisión antes de enviar.");
+            return false;
+        }
+        return true;
+    }
+  </script>
+</body>
+</html>
+

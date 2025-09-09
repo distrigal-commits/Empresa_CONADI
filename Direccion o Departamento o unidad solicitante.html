@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dirección, Departamento o Unidad Sostenible</title>
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: rgb(129, 180, 182);
+        background-image: url("IMAGENES/CONADI.png"); 
+        background-repeat: no-repeat; 
+        background-size: 1000px; 
+        background-position: center; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; 
+        margin: 0;
+    }
+    .container {
+         background-color: rgba(60, 56, 56, 0.2); 
+        padding: 40px; 
+        border-radius: 18px; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+        text-align: center;
+        width: 500px;
+        transition: transform 0.3s ease-in-out;
+    }
+    .container:hover { transform: translateY(-8px); }
+    .container h2 { margin-bottom: 20px; color: #ffffff; font-size: 1.6em; font-weight: 600; }
+    .container h3 { margin-bottom: 15px; color: #f6f6f6; font-size: 1.3em; }
+    textarea {
+        width: 100%; height: 100px; margin-bottom: 15px; padding: 12px; 
+        border-radius: 10px; border: 1px solid #ccc; resize: none; font-size: 1em;
+    }
+    label { display: block; margin-bottom: 15px; font-size: 1em; }
+    button {
+        background: #007bff; color: white; padding: 14px 22px; border: none; 
+        border-radius: 10px; cursor: pointer; font-size: 1.1em; font-weight: bold;
+        transition: 0.3s; width: 100%;
+    }
+    button:disabled { background: #999; cursor: not-allowed; }
+    button:hover:enabled { background: #0056b3; transform: scale(1.02); }
+    iframe {
+        width: 100%; height: 300px; border: 2px solid #a8dadc; margin-bottom: 20px; 
+        border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+    a {
+        display: block; margin-top: 10px; text-decoration: none; color: white; 
+        background: #4CAF50; padding: 12px; border-radius: 10px; font-weight: bold;
+    }
+    a:hover { background: #43a047; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Dirección, Departamento o Unidad Sostenible</h2>
+
+    <h3>Documento recibido</h3>
+    <iframe id="visorPDF"></iframe>
+
+    <textarea id="comentario" placeholder="Escribe tu comentario..."></textarea>
+    <label>
+      <input type="checkbox" id="revisado"> He revisado la información
+    </label>
+
+    <!-- Botón ahora es enlace -->
+    <a id="enviar" href="T de Centros de Costos.html" onclick="return validarCheckbox();" style="pointer-events:none; opacity:0.6;">Enviar a Técnico de Centro de Costos</a>
+  </div>
+
+  <script>
+    // Cargar PDF desde localStorage
+    const pdfData = localStorage.getItem("pdfGenerado");
+    if (pdfData) {
+      document.getElementById("visorPDF").src = pdfData;
+    } else {
+      document.getElementById("visorPDF").outerHTML = "<p style='color:red;'>No se recibió ningún documento.</p>";
+    }
+
+    const checkbox = document.getElementById('revisado');
+    const enviarLink = document.getElementById('enviar');
+
+    checkbox.addEventListener('change', () => {
+        if(checkbox.checked){
+            enviarLink.style.pointerEvents = 'auto';
+            enviarLink.style.opacity = '1';
+        } else {
+            enviarLink.style.pointerEvents = 'none';
+            enviarLink.style.opacity = '0.6';
+        }
+    });
+
+    function validarCheckbox(){
+        if(!checkbox.checked){
+            alert("Debes marcar la casilla de revisión antes de enviar.");
+            return false;
+        }
+        return true;
+    }
+  </script>
+</body>
+</html>
